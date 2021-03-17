@@ -1,49 +1,65 @@
+//=============== Объявление переменных =====================
 let buttonInput = document.querySelector('.button--input');
 let buttonStart = document.querySelector('.button--start');
 let rowArgument = document.querySelector('.row--argument');
 let rowSin = document.querySelector('.row--sin');
-let arg = 0;
-let argAmount;
-let sin = Math.sin(arg);
-let sinRounded = sin.toFixed(2);
+let argLength;
 let argRowMin;
+let argRowMinSin;
 let argRowMax;
 let argRowLength;
 let numberOfSegments;
-let numberOfDots;
 let rad;
-
-
-// перевод градусов в радианы
-function getSinDeg(arg) {
-	rad = arg * Math.PI / 180;
+// очистка таблицы
+let clearTable = function () {
+	rowArgument.innerHTML = "";
+	rowSin.innerHTML = "";
+}
+// перевод вводимых градусов в радианы
+function getSinDeg(argDeg) {
+	rad = argDeg * Math.PI / 180;
 	return Math.sin(rad);
 };
 
 
+//===========================================================
 
+// заполнение аргументов
 buttonInput.onclick = function () {
-	//считаем значения ряда аргументов
+	//очистка таблицы при повторном вводе
+	clearTable();
+	//ввод крайних границ ряда аргументов
 	argRowMin = +prompt('Введите нижнюю границу ряда аргументов, град');
+	argRowMinSin = argRowMin;
 	argRowMax = +prompt('Введите верхнюю границу ряда аргументов, град');
+	//ввод n рассчитываемых отрезков
+	numberOfSegments = +prompt('Введите целое число n, равное количеству отрезков ряда аргументов');
+	// считаем длину ряда аргументов
 	argRowLength = argRowMax - argRowMin;
-
-	//спрашиваем n рассчитываемых точек (n отрезков + 1)
-	numberOfDots = +prompt('Введите целое число n, равное количеству отрезков ряда аргументов');
-	numberOfSegments = numberOfDots - 1;
-	//промежуточные значения аргументов
-	argAmount = argRowLength / numberOfDots;
-
-	rowArgument.innerHTML = "<div>" + arg + "</div>";
-	rowSin.innerHTML += "<div>" + getSinDeg(arg).toFixed(4) + "</div>";
-	for (let i = 1; i <= numberOfDots; i++) {
-
-		arg += argAmount;
-		rowArgument.innerHTML += "<div>" + arg + "</div>";
-		rowSin.innerHTML += "<div>" + getSinDeg(arg).toFixed(4) + "</div>";
-		console.log(arg);
-
+	// длина одного отрезка
+	argLength = argRowLength / numberOfSegments;
+	// первое значение ряда аргументов
+	rowArgument.innerHTML = "<div>&nbsp;&nbsp;" + argRowMin + "</div>";
+	// остальные значения
+	for (let i = 1; i <= numberOfSegments; i++) {
+		// при запуске цикла пройдёт numberOfSegments кол-во операций
+		// прибавление длины одного отрезка к предыдущему значению, добавление блока div с этим значением аргумента
+		argRowMin += argLength;
+		rowArgument.innerHTML += "<div>&nbsp;&nbsp;" + argRowMin + "</div>";
 	}
+	console.log(argRowMinSin);
 };
 
+// расчёт sin(x)
+buttonStart.onclick = function () {
+	// первое значение ряда sin(x)
+	rowSin.innerHTML = "<div>&nbsp;&nbsp;" + getSinDeg(argRowMinSin).toFixed(4) + "</div>";
+	// остальные значения
+	for (let i = 1; i <= numberOfSegments; i++) {
+		// при запуске цикла пройдёт numberOfSegments кол-во операций
+		// прибавление длины одного отрезка к предыдущему значению, добавление блока div с этим значением sin(x)
+		argRowMinSin += argLength;
+		rowSin.innerHTML += "<div>&nbsp;&nbsp;" + getSinDeg(argRowMinSin).toFixed(4) + "</div>";
+	}
+}
 

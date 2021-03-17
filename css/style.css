@@ -1,40 +1,20 @@
-.wrapper {
-}
-
 .buttons {
 	margin-bottom: 20px;
 }
-
-.button--input {
-}
-
 .button--start {
-	margin-left: 10px;
+	margin-left: 12px;
 }
-
 .rows {
 	display: flex;
 }
-
 .row + .row {
 	margin-left: 20px;
-}
-
-.row--description {
-}
-
-.row--argument {
-	text-align: right;
 }
 .row--argument div {
 	border: 1px solid #000;
 }
 .row--argument div + div {
 	border-top: none;
-}
-
-.row--sin {
-	text-align-last: left;
 }
 .row--sin div {
 	border: 1px solid #000;
